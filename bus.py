@@ -25,8 +25,8 @@ def bustimereturn(s):
     except:
         res += '科研楼已无车'
     return res
-def bustime():
-    cur_wday = localtime()[6]
+def bustime(option=None):
+    cur_wday = localtime()[6] if option==None else int(option)
     return (bustimereturn('day') if cur_wday in [0, 1, 2, 3, 4] else (bustimereturn('end') if cur_wday in [5, 6] else '404'))
     # if cur_time_wday in [0, 1, 2, 3, 4]:
     #     return bustimereturn('day')

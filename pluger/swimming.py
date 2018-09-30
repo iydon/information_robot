@@ -1,3 +1,4 @@
+# 游泳馆开放时间
 import time
 
 def onMessage(bot, contact, member, content):
