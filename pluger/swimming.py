@@ -12,4 +12,4 @@ def onMessage(bot, contact, member, content):
 		6: "06:30-08:30\n15:00-17:00\n18:30-21:30",
 		7: "闭馆（清洗、消毒）"
 	}
-	return "今日游泳馆开放时间：\n%s"%dct[wday]
+	return "今日游泳馆开放时间：\n%s\n明日游泳馆开放时间：\n%s"%(dct[wday],dct[wday%7+1])
