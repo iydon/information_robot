@@ -48,7 +48,7 @@ def onQQMessage(bot, contact, member, content):
                     if keyword[-1][0]==":":
                         exec("from pluger import {0} as tmp_module".format(keyword[-1][1:]))
                         string = eval("tmp_module.onMessage(bot,contact,member,content)")
-                        bot.SendTo(contact, string)
+                        bot.SendTo(contact, string.replace("\\n", "\n"))
                     else:
                         bot.SendTo(contact, keyword[-1])
 
