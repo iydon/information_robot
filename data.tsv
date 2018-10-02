@@ -15,6 +15,8 @@ GitHub			https://github.com/Iydon/info_qq_bot
 HELP			查看关键词：“我要关键词！！！”。
 HELP			目前的命令：bus加星期如“bus1”、“数据库”、“讲座”、“游泳馆”、“夜宵”、“周次”、“书籍推荐”，闲聊以“。”开头。
 HELP			欢迎一起合作：https://github.com/Iydon/info_qq_bot！人工服务暂时下线，如果存在问题，请回复“合作”获得帮助~
+bus			https://i.loli.net/2018/09/18/5ba0e4f689a5f.png。
+bus			bus默认是按照星期判断节假日，所以如果节假日与星期不符，请使用bus+星期，例如“bus6”表示星期六的bus时间~
 # 关键词
 钥匙			塘朗新春燕照相馆门口，价格：10r。
 邮编			南科大邮编：518055
@@ -213,7 +215,6 @@ Sakai			Sakai：http://sakai.sustc.edu.cn/portal
 专家公寓			电话			专家公寓: 手机号码  8666 4597
 网吧			超时代，前岸有学生卡优惠，价格6-10 元每小时。
 gpa			查询GPA：http://ehall.sustc.edu.cn/new/index.html（网上服务大厅）然后 学生教务信息 然后 GPA与学分。
-bus			https://i.loli.net/2018/09/18/5ba0e4f689a5f.png。
 KTV			塘朗村：尊龙，莱斯尼斯，咪咕。西丽：留仙居，囍量版KTV 会所
 Emoji			谢谢			咱俩谁跟谁啊/亲亲
 校徽			http://www.sustc.edu.cn/biaozhi
