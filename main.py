@@ -20,6 +20,8 @@ def onQQMessage(bot, contact, member, content):
     #if getattr(member, "uin", None) != bot.conf.qq:
     if not bot.isMe(contact, member):
         time.sleep(0.314)
+        if contact.name in ["南科大信息交流群"]:
+            return
         if content[0] in [";","；"] and content[-1] in [";","；"]:
             with open("data.tsv",mode="a+", encoding="utf-8") as f:
                 string = content[1:-1]

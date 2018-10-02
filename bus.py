@@ -10,8 +10,7 @@ def routine():
     return {'xyday':xyday, 'kyday':kyday, 'xyend':xyend, 'kyend':kyend}
 
 def bustimereturn(s, bias=0):
-    cur_time = (2018,10,2,13,30,20,1,275,0)
-    # cur_time = localtime()
+    cur_time = localtime()
     cur_hour,cur_min = cur_time[3],cur_time[4]
     dct      = routine()
     getIdx   = lambda k: [i<(60*cur_hour+cur_min) for i in [60*h+m for h,m in dct[k]]].index(False)-bias
@@ -41,3 +40,5 @@ def bustime(option=None):
     #     return bustimereturn('end')
     # else:
     #     return '404'
+
+print(bustime())
