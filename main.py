@@ -50,7 +50,7 @@ def onQQMessage(bot, contact, member, content):
                         string = eval("tmp_module.onMessage(bot,contact,member,content)")
                         bot.SendTo(contact, string.replace("\\n", "\n"))
                     else:
-                        bot.SendTo(contact, keyword[-1])
+                        bot.SendTo(contact, keyword[-1].replace("\\n", "\n"))
 
         flag,con = extraFunction(contact, content, member, bot)
         if flag:

@@ -4,7 +4,7 @@
 我要关键词			！！！			:keywords
 周			次			:week
 夜			宵			:nightingale
-。			。			:chat
+			:chat
 安			排			:remind
 书籍			推荐			:book
 # 介绍
@@ -12,11 +12,8 @@
 GitHub			https://github.com/Iydon/info_qq_bot
 合作的说明			求对机器人感兴趣的同学，以及南科大攻略手册的制作者，完善机器人的功能和数据库，更好地在信息群询问更有价值的问题~加我好友后回复“合作”即可，欢迎小窗滴滴我~
 合作			欢迎加作者QQ：1056736800。
-HELP			查看关键词：“我要关键词！！！”。
-HELP			目前的命令：bus加星期如“bus1”、“数据库”、“讲座”、“游泳馆”、“夜宵”、“周次”、“书籍推荐”，闲聊以“。”开头。
-HELP			欢迎一起合作：https://github.com/Iydon/info_qq_bot！人工服务暂时下线，如果存在问题，请回复“合作”获得帮助~
-bus			https://i.loli.net/2018/09/18/5ba0e4f689a5f.png。
-bus			bus默认是按照星期判断节假日，所以如果节假日与星期不符，请使用bus+星期，例如“bus6”表示星期六的bus时间~
+HELP			查看关键词：“我要关键词！！！”。\n目前的命令：bus加星期如“bus1”、“数据库”、“讲座”、“游泳馆”、“夜宵”、“周次”、“书籍推荐”，闲聊以“。”开头。\n欢迎一起合作：https://github.com/Iydon/info_qq_bot！人工服务暂时下线，如果存在问题，请回复“合作”获得帮助~
+bus			https://i.loli.net/2018/09/18/5ba0e4f689a5f.png。\nbus默认是按照星期判断节假日，所以如果节假日与星期不符，请使用bus+星期，例如“bus6”表示星期六的bus时间~
 # 关键词
 钥匙			塘朗新春燕照相馆门口，价格：10r。
 邮编			南科大邮编：518055
@@ -180,7 +177,6 @@ Sakai			Sakai：http://sakai.sustc.edu.cn/portal
 官网			http://new.sustc.edu.cn/
 安德			能吃嘛/疑问
 卡			校			补办学生卡：微信企业号“南科大”——校园卡——卡务。
-邮编			南科大邮编518055
 地图			http://www.sustc.edu.cn/upload/images/pangcq/20161025%E5%8D%97%E7%A7%91%E5%A4%A7%E5%9C%B0%E5%9B%BE.jpg
 图书馆			图书馆开放时间：8:00-22:00。图书馆：88010800。邮箱：lib@sustc.edu.cn。网站：http://lib.sustc.edu.cn/。
 会议			国际会议报告厅：行政楼一楼
@@ -216,7 +212,6 @@ Sakai			Sakai：http://sakai.sustc.edu.cn/portal
 网吧			超时代，前岸有学生卡优惠，价格6-10 元每小时。
 gpa			查询GPA：http://ehall.sustc.edu.cn/new/index.html（网上服务大厅）然后 学生教务信息 然后 GPA与学分。
 KTV			塘朗村：尊龙，莱斯尼斯，咪咕。西丽：留仙居，囍量版KTV 会所
-Emoji			谢谢			咱俩谁跟谁啊/亲亲
 校徽			http://www.sustc.edu.cn/biaozhi
 数据结构			欢迎加入数据结构和算法分析，群聊号码：873697925
 专家公寓			专家公寓：专家公寓二栋0755-86664597、0755-88015773。220单人，240双人，单人间大床比双人间的床要大。
@@ -231,4 +226,3 @@ ET			CLUB			ET-Club群：691024892
 线代			https://www.bilibili.com/video/av15463995
 理发			校园发社：上午10点到晚上10点
 挂失			校园卡挂失需要到行政楼行政服务中心，早上8:30至下午6:00。或者前往圈存机，有解挂申请，根据步骤来即可。
-加油			ヾ(◍°∇°◍)ﾉﾞ
