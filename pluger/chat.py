@@ -12,5 +12,4 @@ def chatWithMe(content):
 	return text
 
 def onMessage(bot, contact, member, content):
-	if content[0:1]=="。":
-		return chatWithMe(content[1:])
+	return chatWithMe(content)
