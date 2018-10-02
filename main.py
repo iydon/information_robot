@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 # 更新插件：qq unplug QQ && qq plug QQ
 from qqbot import QQBotSlot as qqbotslot, RunBot
-import requests, re, random, json
-# numpy, matplotlib, pandas, tensorflow
+import requests, re, random, json, time
 import bus
 
 
@@ -20,6 +19,7 @@ def extraFunction(contact,content,member, bot):
 def onQQMessage(bot, contact, member, content):
     #if getattr(member, "uin", None) != bot.conf.qq:
     if not bot.isMe(contact, member):
+        time.sleep(0.314)
         if content[0] in [";","；"] and content[-1] in [";","；"]:
             with open("data.tsv",mode="a+", encoding="utf-8") as f:
                 string = content[1:-1]

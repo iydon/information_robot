@@ -41,5 +41,3 @@ def bustime(option=None):
     #     return bustimereturn('end')
     # else:
     #     return '404'
-
-print(bustime())
