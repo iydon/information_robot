@@ -24,7 +24,7 @@ def onQQMessage(bot, contact, member, content):
             return
         if contact.name in ["山东大学资料分享群"]:
             write_key(content, "data_m.tsv")
-            string = answer(content.lower())
+            string = answer(content.lower(), "data_m.tsv")
             if string:
                 bot.SendTo(contact, string.replace("\\n", "\n"))
             return
