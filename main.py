@@ -24,14 +24,10 @@ def onQQMessage(bot, contact, member, content):
             return
         if contact.name in ["山东大学资料分享群"]:
             write_key(content, "data_m.tsv")
-            string = answer(bot,contact,member,content.lower(), "data_m.tsv")
-            if string:
-                bot.SendTo(contact, string.replace("\\n", "\n"))
+            answer(bot,contact,member,content.lower(), "data_m.tsv")
             return
         write_key(content)
-        string = answer(bot,contact,member,content.lower())
-        if string:
-            bot.SendTo(contact, string.replace("\\n", "\n"))
+        answer(bot,contact,member,content.lower())
         flag,con = extraFunction(contact, content, member, bot)
         if flag:
             bot.SendTo(contact, con)
@@ -72,9 +68,11 @@ def answer(bot,contact,member,content, file="data.tsv"):
             if or_flag:
                 if keyword[-1][0]==":":
                     exec("from pluger import {0} as tmp_module".format(keyword[-1][1:]))
-                    return eval("tmp_module.onMessage(bot,contact,member,content)")
+                    string = eval("tmp_module.onMessage(bot,contact,member,content)")
                 else:
-                    return keyword[-1]
+                    string = keyword[-1]
+                if string:
+                    bot.SendTo(contact, string.replace("\\n", "\n"))
 
 if __name__ == "__main__":
     RunBot()
