@@ -12,6 +12,6 @@ def chatWithMe(content):
     return text
 
 def onMessage(bot, contact, member, content):
-    with open("rec.inf", mod="a+", encoding="utf-8") as f:
+    with open("rec.inf", mode="a+", encoding="utf-8") as f:
         f.write("%s\t%s\t%s\n"%(contact.name, member, content.replace("\n", "\\n")))
     return chatWithMe(content)
