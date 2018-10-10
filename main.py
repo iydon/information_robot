@@ -24,12 +24,12 @@ def onQQMessage(bot, contact, member, content):
             return
         if contact.name in ["山东大学资料分享群"]:
             write_key(content, "data_m.tsv")
-            string = answer(content.lower(), "data_m.tsv")
+            string = answer(bot,contact,member,content.lower(), "data_m.tsv")
             if string:
                 bot.SendTo(contact, string.replace("\\n", "\n"))
             return
         write_key(content)
-        string = answer(content.lower())
+        string = answer(bot,contact,member,content.lower())
         if string:
             bot.SendTo(contact, string.replace("\\n", "\n"))
         flag,con = extraFunction(contact, content, member, bot)
@@ -49,7 +49,7 @@ def write_key(content, file="data.tsv"):
             f.write(string.replace("；", "\t").replace(";", "\t")+"\n")
             return
 
-def answer(content, file="data.tsv"):
+def answer(bot,contact,member,content, file="data.tsv"):
     with open(file, encoding="utf-8") as f:
         keywords = [re.split("\t+", j) for j in re.split("[\r\n]+", f.read().strip())]
     for keyword in keywords:
