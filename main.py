@@ -46,6 +46,7 @@ def write_key(content, file="data.tsv"):
             return
 
 def answer(bot,contact,member,content, file="data.tsv"):
+    count = 0
     with open(file, encoding="utf-8") as f:
         keywords = [re.split("\t+", j) for j in re.split("[\r\n]+", f.read().strip())]
     for keyword in keywords:
@@ -72,7 +73,10 @@ def answer(bot,contact,member,content, file="data.tsv"):
                 else:
                     string = keyword[-1]
                 if string:
+                    if count>9:
+                        break
                     bot.SendTo(contact, string.replace("\\n", "\n"))
+                    count += 1
 
 if __name__ == "__main__":
     RunBot()
