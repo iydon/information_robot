@@ -1,0 +1,10 @@
+config.json
+mcl.jar
+
+bots/*
+config/*
+data/*
+libs/*
+MxLibData/*
+plugins/*
+scripts/*
