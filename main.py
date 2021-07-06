@@ -10,6 +10,7 @@ from graia.application.message.elements.internal import Source, Plain, At, Image
 from graia.broadcast import Broadcast
 
 from config import host, auth_key, account
+from utils.decorator import command
 
 
 loop = asyncio.get_event_loop()
@@ -22,7 +23,11 @@ app = GraiaMiraiApplication(
 
 
 def process(message: MessageChain) -> MessageChain:
-    # content = message.asDisplay().strip()
+    content = message.asDisplay().strip()
+    if content.startswith('/'):
+        return MessageChain.create(
+            [Plain(command.from_str(content[1:]))]
+        )
     return message.asSendable()
 
 @bcc.receiver(FriendMessage)  # 好友聊天
