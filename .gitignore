@@ -8,3 +8,5 @@ libs/*
 MxLibData/*
 plugins/*
 scripts/*
+
+__pycache__
