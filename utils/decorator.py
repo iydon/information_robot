@@ -4,9 +4,16 @@ import shlex
 
 class command:
     s = dict()  # command.s
+    t = dict()  # type
 
-    def __init__(self, func):
+    def __init__(self, func, return_='text'):
+        '''
+        Argument:
+            - func: Callable
+            - return_: str, in {'text', 'error'}
+        '''
         self.s[func.__name__] = func
+        self.t[func.__name__] = return_
         functools.wraps(func)(self)
 
     def __call__(self, *args, **kwargs):
@@ -22,7 +29,7 @@ class command:
                     >>> test a~a b~'b b' cc~'c'
 
         Return:
-            - str
+            - {'return': ..., 'type': ...}
 
         Reference:
             - https://code.activestate.com/recipes/577122-transform-command-line-arguments-to-args-and-kwarg/
@@ -31,7 +38,7 @@ class command:
         argv = shlex.split(string)
         if not (argv and argv[0] in cls.s):
             return 'SyntaxError'
-        func, argv = cls.s[argv[0]], argv[1:]
+        func, argv, return_type = cls.s[argv[0]], argv[1:], cls.t[argv[0]]
         # transform command line arguments to args and kwarg
         args, kwargs = list(), dict()
         for arg in argv:
@@ -50,15 +57,27 @@ class command:
                     return 'TypeError'
         # call
         try:
-            return str(func(**kwargs))
+            return {'return': func(**kwargs), 'type': return_type}
         except Exception:
-            return 'RuntimeError'
+            return {'return': 'RuntimeError', 'type': 'error'}
+
+
+def commander(func=None, return_='text'):
+    if func:
+        return command(func)
+    else:
+        def wrapper(func):
+            return command(func, return_)
+        return wrapper
 
 
 if __name__ == '__main__':
-    @command
+    @commander(return_='text')
     def help(name: str = 'help'):
-        '''help me
+        '''get the docstring of the command `name`
+
+        Argument:
+            - name: str, default 'help'
         '''
         if name in command.s:
             return command.s[name].__doc__ or 'CommandHasNoDoc'

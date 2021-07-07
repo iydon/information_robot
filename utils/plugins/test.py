@@ -1,9 +1,13 @@
-from ..decorator import command
+from .why import why as _why
+from ..decorator import command, commander
 
 
-@command
+@commander
 def help(name: str = 'help'):
-    '''help me
+    '''get the docstring of the command `name`
+
+    Argument:
+        - name: str, default 'help'
     '''
     if name in command.s:
         return command.s[name].__doc__.strip() or 'CommandHasNoDoc'
@@ -11,8 +15,15 @@ def help(name: str = 'help'):
         return 'CommandNotFound'
 
 
-@command
+@commander
 def all():
     '''get all commands
     '''
     return '\n'.join(command.s)
+
+
+@commander
+def why():
+    '''why
+    '''
+    return _why()

@@ -25,9 +25,13 @@ app = GraiaMiraiApplication(
 def process(message: MessageChain) -> MessageChain:
     content = message.asDisplay().strip()
     if content.startswith('/'):
-        return MessageChain.create(
-            [Plain(command.from_str(content[1:]))]
-        )
+        result = command.from_str(content[1:])
+        if result['type'] == 'text':
+            return MessageChain.create([Plain(result['return'])])
+        elif result['type'] == 'error':
+            return MessageChain.create(
+                [Face(faceId=168), Plain(result['return'])]
+            )
     return message.asSendable()
 
 @bcc.receiver(FriendMessage)  # 好友聊天
