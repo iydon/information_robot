@@ -37,7 +37,7 @@ class command:
         '''
         argv = shlex.split(string)
         if not (argv and argv[0] in cls.s):
-            return 'SyntaxError'
+            return {'return': 'SyntaxError', 'type': 'error'}
         func, argv, return_type = cls.s[argv[0]], argv[1:], cls.t[argv[0]]
         # transform command line arguments to args and kwarg
         args, kwargs = list(), dict()
@@ -54,7 +54,7 @@ class command:
                 try:
                     kwargs[name] = T(kwargs[name])
                 except Exception:  # not isinstance(T, type)
-                    return 'TypeError'
+                    return {'return': 'TypeError', 'type': 'error'}
         # call
         try:
             return {'return': func(**kwargs), 'type': return_type}

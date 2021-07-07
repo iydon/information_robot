@@ -28,6 +28,10 @@ def process(message: MessageChain) -> MessageChain:
         result = command.from_str(content[1:])
         if result['type'] == 'text':
             return MessageChain.create([Plain(result['return'])])
+        elif result['type'] == 'image':
+            return MessageChain.create(
+                [Image.fromLocalFile(result['return'])]
+            )
         elif result['type'] == 'error':
             return MessageChain.create(
                 [Face(faceId=168), Plain(result['return'])]

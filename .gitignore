@@ -2,6 +2,7 @@ config.json
 mcl.jar
 
 bots/*
+cache/*
 config/*
 data/*
 libs/*
