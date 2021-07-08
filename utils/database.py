@@ -16,23 +16,26 @@ class Database:
         }
         create_database_related_commands(self)
 
-    def keyword_add(self, keyword, return_, type='text'):
+    def keyword_add(self, keyword, return_, type='text', update=True):
         '''add keyword
 
         Argument:
             - keyword: List[List[str]]
             - return_: JSON serializable
-            - type: str
+            - type: str, default 'text'
+            - update: bool, default True
         '''
         assert isinstance(keyword, typing.Iterable) and all(
             isinstance(k1, typing.Iterable) and all(
                 isinstance(k2, str) for k2 in k1
             ) for k1 in keyword
         ) and isinstance(type, str)
+        keyword = list(list(map(str.lower, k)) for k in keyword)
         self.table['keyword'].insert(
             {'keyword': keyword, 'return': return_, 'type': type}
         )
-        self.cache['keyword'] = self.table['keyword'].all()
+        if update:
+            self.cache['keyword'] = self.table['keyword'].all()
 
     def keyword_match(self, string):
         '''match keyword to get returns
@@ -43,6 +46,7 @@ class Database:
         Return:
             - Iterator[JSON serializable]
         '''
+        string = string.lower()
         for item in self.cache['keyword']:
             if all(
                 any(k2 in string for k2 in k1) for k1 in item['keyword']
