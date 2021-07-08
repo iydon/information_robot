@@ -48,7 +48,8 @@ def process(message: MessageChain) -> Optional[MessageChain]:
     returns = []
     for result in database.keyword_match(content):
         returns += handle_type(result) + [Plain('\n\n')]
-    return MessageChain.create(returns[:-1])
+    if returns:
+        return MessageChain.create(returns[:-1])
 
 @bcc.receiver(FriendMessage)  # 好友聊天
 async def friend_message_listener(
@@ -64,8 +65,11 @@ async def group_message_listener(
 ):
     return_ = process(message)
     if return_:
-        await app.sendTempMessage(
-            group, member, return_, quote=message.get(Source)[0]
+        # await app.sendTempMessage(
+        #     group, member, return_, quote=message.get(Source)[0]
+        # )
+        await app.sendGroupMessage(
+            group, return_, quote=message.get(Source)[0]
         )
 
 @bcc.receiver(TempMessage)  # 临时聊天
