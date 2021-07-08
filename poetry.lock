@@ -339,6 +339,14 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
+name = "tinydb"
+version = "4.5.0"
+description = "TinyDB is a tiny, document oriented database optimized for your happiness :)"
+category = "main"
+optional = false
+python-versions = ">=3.5,<4.0"
+
+[[package]]
 name = "traitlets"
 version = "5.0.5"
 description = "Traitlets Python configuration system"
@@ -383,7 +391,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "3.8.*"
-content-hash = "ae8d4d2a99cc82257c50a193d8c1d143cbf19704e55b8d482baabbaea98b8fa4"
+content-hash = "8bc8196fa001a8c5f3409630d374b3e9edf34ce08b6a536d914473c1b602b701"
 
 [metadata.files]
 aiohttp = [
@@ -665,6 +673,10 @@ regex = [
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
     {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
+]
+tinydb = [
+    {file = "tinydb-4.5.0-py3-none-any.whl", hash = "sha256:ab2669b88ba1e1b3e1bd6da1a1e3ee284fde6fbf327fb16a206ac3954915f37f"},
+    {file = "tinydb-4.5.0.tar.gz", hash = "sha256:d287cd092f19a2b8553d0a6018f172c351268fb8619898eb87633d9e2c036344"},
 ]
 traitlets = [
     {file = "traitlets-5.0.5-py3-none-any.whl", hash = "sha256:69ff3f9d5351f31a7ad80443c2674b7099df13cc41fc5fa6e2f6d3b0330b0426"},
