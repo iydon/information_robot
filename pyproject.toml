@@ -10,6 +10,7 @@ graia-application-mirai = "^0.19.1"
 graia-scheduler = "^0.0.4"
 PyYAML = "^5.4.1"
 tinydb = "^4.5.0"
+fuzzywuzzy = {extras = ["speedup"], version = "^0.18.0"}
 
 [tool.poetry.dev-dependencies]
 ipython = "^7.25.0"

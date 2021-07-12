@@ -1,6 +1,7 @@
 import asyncio
 
 from typing import List, Optional
+from fuzzywuzzy import fuzz
 
 from graia.application import GraiaMiraiApplication, Session
 from graia.application.event.messages import GroupMessage, FriendMessage, TempMessage
@@ -27,7 +28,7 @@ app = GraiaMiraiApplication(
 database = Database(database_path)
 
 
-def process(message: MessageChain) -> Optional[MessageChain]:
+def process(message: MessageChain, fuzzy: int = 0) -> list:
     def handle_type(result: dict) -> List:
         if result['type'] == 'text':
             return [Plain(result['return'])]
@@ -41,23 +42,23 @@ def process(message: MessageChain) -> Optional[MessageChain]:
     content = message.asDisplay().strip()
     # 命令运行
     if content.startswith('/'):
-        return MessageChain.create(
-            handle_type(command.from_str(content[1:]))
-        )
-    # 关键词回复
+        return handle_type(command.from_str(content[1:]))
+    # 关键词回复 + 模糊查询回复
     returns = []
     for result in database.keyword_match(content):
         returns += handle_type(result) + [Plain('\n\n')]
-    if returns:
-        return MessageChain.create(returns[:-1])
+    if fuzz:
+        for result in database.keyword_match(content, fuzzy=fuzzy):
+            returns += handle_type(result) + [Plain('\n\n')]
+    return returns[:-1]
 
 @bcc.receiver(FriendMessage)  # 好友聊天
 async def friend_message_listener(
     app: GraiaMiraiApplication, friend: Friend, message: MessageChain
 ):
-    return_ = process(message)
+    return_ = process(message, fuzzy=3)
     if return_:
-        await app.sendFriendMessage(friend, return_)
+        await app.sendFriendMessage(friend, MessageChain.create(return_))
 
 @bcc.receiver(GroupMessage)  # 群组聊天
 async def group_message_listener(
@@ -67,19 +68,19 @@ async def group_message_listener(
     if return_:
         # 可能由于风控原因，偶尔无法在群里发言，因此改为私聊回复
         # await app.sendGroupMessage(
-        #     group, return_, quote=message.get(Source)[0]
+        #     group, MessageChain.create(return_), quote=message.get(Source)[0]
         # )
         await app.sendTempMessage(
-            group, member, return_, quote=message.get(Source)[0]
+            group, member, MessageChain.create(return_), quote=message.get(Source)[0]
         )
 
 @bcc.receiver(TempMessage)  # 临时聊天
 async def temp_message_listener(
     app: GraiaMiraiApplication, group: Group, member: Member, message: MessageChain
 ):
-    return_ = process(message)
+    return_ = process(message, fuzzy=3)
     if return_:
-        await app.sendTempMessage(group, member, return_)
+        await app.sendTempMessage(group, member, MessageChain.create(return_))
 
 # 同意好友申请后，因为好友身份识别为陌生人导致私戳信息无效，因此不自动同意好友申请
 # @bcc.receiver(NewFriendRequestEvent)  # 好友申请

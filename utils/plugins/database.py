@@ -15,7 +15,17 @@ def create_database_related_commands(database):
             - return_: str
         '''
         database.keyword_add(
-            database.keyword_parse(keyword),
-            return_=return_, type='text',
+            database.keyword_parse(keyword), return_=return_, type='text'
         )
+        return 'Done'
+
+    @commander
+    def addfuzzy(keyword: str, return_: str):
+        '''add auto-reply fuzzy keyword
+
+        Argument:
+            - keyword: str, e.g. '你好世界'
+            - return_: str
+        '''
+        database.keyword_add_fuzzy(keyword, return_=return_, type='text')
         return 'Done'
