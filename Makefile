@@ -20,4 +20,6 @@ bot:
 
 .PHNOY: scp
 scp:
-	rsync -av -e '/usr/bin/ssh' --delete . bot@bot.iydon.top:~/Desktop
+	rsync -av -e '/usr/bin/ssh' --delete \
+		--exclude={'bots/*','config/*'} \
+		. bot@bot.iydon.top:~/Desktop/$(notdir $(CURDIR))
