@@ -65,11 +65,12 @@ async def group_message_listener(
 ):
     return_ = process(message)
     if return_:
-        # await app.sendTempMessage(
-        #     group, member, return_, quote=message.get(Source)[0]
+        # 可能由于风控原因，偶尔无法在群里发言，因此改为私聊回复
+        # await app.sendGroupMessage(
+        #     group, return_, quote=message.get(Source)[0]
         # )
-        await app.sendGroupMessage(
-            group, return_, quote=message.get(Source)[0]
+        await app.sendTempMessage(
+            group, member, return_, quote=message.get(Source)[0]
         )
 
 @bcc.receiver(TempMessage)  # 临时聊天
@@ -80,6 +81,7 @@ async def temp_message_listener(
     if return_:
         await app.sendTempMessage(group, member, return_)
 
+# 同意好友申请后，因为好友身份识别为陌生人导致私戳信息无效，因此不自动同意好友申请
 # @bcc.receiver(NewFriendRequestEvent)  # 好友申请
 # async def new_friend_request_listener(
 #     app: GraiaMiraiApplication, event: NewFriendRequestEvent

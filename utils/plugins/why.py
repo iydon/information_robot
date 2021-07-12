@@ -105,4 +105,5 @@ class why:
         return choices(tuple(sw), weights=sw.values(), k=1)[0]()
 
 
-print(why())
+if __name__ == '__main__':
+    print(why())

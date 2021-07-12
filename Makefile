@@ -1,6 +1,7 @@
 JAVA = java
+PYTHON = python3
 MCL = $(JAVA) -jar mcl.jar
-PYTHON = poetry.exe run python
+POETRY = $(PYTHON) -m poetry run python
 
 
 .PHNOY: run
@@ -15,4 +16,8 @@ update:
 
 .PHNOY: bot
 bot:
-	$(PYTHON) main.py
+	$(POETRY) main.py
+
+.PHNOY: scp
+scp:
+	scp -r ../$(notdir $(CURDIR)) bot@bot.iydon.top:~/Desktop

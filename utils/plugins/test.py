@@ -29,18 +29,3 @@ def why():
     '''why
     '''
     return _why()
-
-
-# @commander(return_='image')
-# def heatmap(name: str = 'dust2'):
-#     '''get the heatmap by `name`
-
-#     Argument:
-#         - name: str, in {
-#                 cache, dust2, mirage, overpass, vertigo, 
-#                 cobblestone, inferno, nuke, train,
-#             }
-#     '''
-#     path = os.path.join('cache', f'{name}.png')
-#     assert os.path.exists(path)
-#     return path
