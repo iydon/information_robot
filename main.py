@@ -1,9 +1,9 @@
 import asyncio
 
-from typing import List, Optional
-from fuzzywuzzy import fuzz
+from typing import List
 
 from graia.application import GraiaMiraiApplication, Session
+from graia.application.entities import UploadMethods
 from graia.application.event.messages import GroupMessage, FriendMessage, TempMessage
 from graia.application.event.mirai import NewFriendRequestEvent
 from graia.application.friend import Friend
@@ -33,7 +33,7 @@ def process(message: MessageChain, fuzzy: int = 0) -> list:
         if result['type'] == 'text':
             return [Plain(result['return'])]
         elif result['type'] == 'image':
-            return [Image.fromLocalFile(result['return'])]
+            return [Image.fromLocalFile(result['return'], method=UploadMethods.Temp)]
         elif result['type'] == 'error':
             return [Face(faceId=168), Plain(result['return'])]
         else:
@@ -47,7 +47,7 @@ def process(message: MessageChain, fuzzy: int = 0) -> list:
     returns = []
     for result in database.keyword_match(content):
         returns += handle_type(result) + [Plain('\n\n')]
-    if fuzz:
+    if fuzzy:
         for result in database.keyword_match(content, fuzzy=fuzzy):
             returns += handle_type(result) + [Plain('\n\n')]
     return returns[:-1]
