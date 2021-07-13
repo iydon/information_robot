@@ -1,0 +1,3 @@
+[submodule "third-part\\sustech-online-ng"]
+	path = third-part\\sustech-online-ng
+	url = https://github.com/SUSTC/sustech-online-ng
