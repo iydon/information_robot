@@ -3,14 +3,15 @@ from ..decorator import commander
 
 def create_database_related_commands(database):
     '''
-    Argument:
+    - Argument:
         - database: Database from ..database
     '''
     @commander
     def add(keyword: str, return_: str):
-        '''add auto-reply keywords
+        '''
+        add auto-reply keywords
 
-        Argument:
+        - Argument:
             - keyword: str, e.g. '你好/再见 世界'
             - return_: str
         '''
@@ -21,9 +22,10 @@ def create_database_related_commands(database):
 
     @commander
     def addfuzzy(keyword: str, return_: str):
-        '''add auto-reply fuzzy keyword
+        '''
+        add auto-reply fuzzy keyword
 
-        Argument:
+        - Argument:
             - keyword: str, e.g. '你好世界'
             - return_: str
         '''

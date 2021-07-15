@@ -19,7 +19,8 @@ from ..decorator import commander
 
 @commander(return_='text')  # 可简写为 @commander
 def repeat(text: str = '*', number: int = 3):
-    '''docstring
+    '''
+    docstring
     '''
     return text * number
 ```
@@ -31,7 +32,8 @@ from ..decorator import commander
 
 @commander(return_='image')
 def heatmap(name: str = 'dust2'):
-    '''docstring
+    '''
+    docstring
     '''
     path = os.path.join('cache', f'{name}.png')
     assert os.path.exists(path)

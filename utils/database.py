@@ -16,9 +16,10 @@ class Database:
         create_database_related_commands(self)
 
     def keyword_add(self, keyword, return_, type='text', update=True):
-        '''add keyword
+        '''
+        add keyword
 
-        Argument:
+        - Argument:
             - keyword: List[List[str]]
             - return_: JSON serializable
             - type: str, default 'text'
@@ -37,9 +38,10 @@ class Database:
             self.cache = self._cache()
 
     def keyword_add_fuzzy(self, keyword, return_, type='text', update=True):
-        '''add fuzzy keyword
+        '''
+        add fuzzy keyword
 
-        Argument:
+        - Argument:
             - keyword: str
             - return_: JSON serializable
             - type: str, default 'text'
@@ -53,13 +55,14 @@ class Database:
             self.cache = self._cache()
 
     def keyword_match(self, string, fuzzy=0):
-        '''match keyword to get returns
+        '''
+        match keyword to get returns
 
-        Argument:
+       -  Argument:
             - string: str
             - fuzzy: int, default 0, fuzzy search limit
 
-        Return:
+        - Return:
             - Iterator[JSON serializable]
         '''
         string = string.lower()
@@ -76,12 +79,13 @@ class Database:
                     yield {'return': item['return'], 'type': item['type']}
 
     def keyword_parse(self, keyword):
-        '''parase keyword from str
+        '''
+        parase keyword from str
 
-        Argument:
+        - Argument:
             - keyword: str
 
-        Example:
+        - Example:
             >>> self.keyword_parse('你好/再见 世界')
             [['你好', '再见'], ['世界']]
         '''

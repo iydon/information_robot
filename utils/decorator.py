@@ -8,7 +8,7 @@ class command:
 
     def __init__(self, func, return_='text'):
         '''
-        Argument:
+        - Argument:
             - func: Callable
             - return_: str, in {'text', 'error'}
         '''
@@ -22,16 +22,16 @@ class command:
     @classmethod
     def from_str(cls, string):
         '''
-        Argument:
+        - Argument:
             - string: str
                 - pattern:
                     >>> test a 'b' 'c d' 5
                     >>> test a~a b~'b b' cc~'c'
 
-        Return:
+        - Return:
             - {'return': ..., 'type': ...}
 
-        Reference:
+        - Reference:
             - https://code.activestate.com/recipes/577122-transform-command-line-arguments-to-args-and-kwarg/
             - https://stackoverflow.com/questions/830937/python-convert-args-to-kwargs
         '''
@@ -74,9 +74,10 @@ def commander(func=None, return_='text'):
 if __name__ == '__main__':
     @commander(return_='text')
     def help(name: str = 'help'):
-        '''get the docstring of the command `name`
+        '''
+        get the docstring of the command `name`
 
-        Argument:
+        - Argument:
             - name: str, default 'help'
         '''
         if name in command.s:
