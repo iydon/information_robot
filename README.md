@@ -15,7 +15,7 @@
 目前内置命令 `/help [命令名]` 会自动返回函数的 docstring。
 
 ```python
-from ..decorator import commander
+from icu.decorator import commander
 
 @commander(return_='text')  # 可简写为 @commander
 def repeat(text: str = '*', number: int = 3):
@@ -28,7 +28,7 @@ def repeat(text: str = '*', number: int = 3):
 返回图片例子如下，如果想返回图片，需要在本地将图片缓存下来，函数返回本地图片的路径即可。
 
 ```python
-from ..decorator import commander
+from icu.decorator import commander
 
 @commander(return_='image')
 def heatmap(name: str = 'dust2'):
@@ -41,11 +41,17 @@ def heatmap(name: str = 'dust2'):
 ```
 
 
-## 关键词回复
+## 关键词回复及模糊回复
 关键词以二维数组的形式存储，例如 `[['你好', '再见'], ['世界']]`，第一层必须同时满足，第二层有一个满足即可，例如 "你好，世界" 与 "世界再见" 均判定为满足关键词。目前内置命令 `/add` 可以添加关键词，其中 `keyword` 为字符串类型，第一层以空格分隔，第二层以 `/` 分割。例如 `/add '你好/再见 世界' 'hello world!'` 即在关键词数据库中增加了关键词及回复 `'hello world'`。
+
+模糊回复为根据对话找出数据库中与之类似的回复，因此关键词以字符串的形式存储即可。
 
 ```python
 @commander
 def add(keyword: str, return_: str):
+    ...
+
+@commander
+def addfuzzy(keyword: str, return_: str):
     ...
 ```
