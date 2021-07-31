@@ -12,9 +12,10 @@ from graia.application.message.chain import MessageChain
 from graia.application.message.elements.internal import Source, Plain, At, Image, Face
 from graia.broadcast import Broadcast
 
+from commands import std, easter_eggs
 from config import host, auth_key, account, database_path
-from utils.decorator import command
-from utils.database import Database
+from icu.decorator import command
+from icu.database import Database
 
 
 loop = asyncio.get_event_loop()
@@ -26,6 +27,12 @@ app = GraiaMiraiApplication(
 )
 
 database = Database(database_path)
+command.register(
+    registers=(
+        std.register_common_commands, std.register_database_commands,
+        easter_eggs.register_common_commands,
+    ), database=database,
+)
 
 
 def process(message: MessageChain, fuzzy: int = 0) -> list:
@@ -64,6 +71,16 @@ async def friend_message_listener(
 async def group_message_listener(
     app: GraiaMiraiApplication, group: Group, member: Member, message: MessageChain
 ):
+    if group.id in (586560037, 780680110, 637371171):  # 信息群
+        if all(isinstance(element, (Source, Face)) for element in message):
+            tips = '【自动回复】信息群请不要单发表情哟~（如有误判请忽略）'
+            await app.sendTempMessage(
+                group, member, MessageChain.create([Plain(tips)]),
+                quote=message.get(Source)[0],
+            )
+            return
+        print(await app.getMember(group, member.id))
+        print(member)
     return_ = process(message)
     if return_:
         # 可能由于风控原因，偶尔无法在群里发言，因此改为私聊回复

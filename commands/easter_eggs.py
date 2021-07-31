@@ -1,5 +1,7 @@
 from random import choice, choices
 
+from icu.decorator import commander
+
 
 class why:
     special_case = (
@@ -103,6 +105,15 @@ class why:
             lambda: f'{choice(cls.article)} {cls.noun_phrase()}': 9,
         }
         return choices(tuple(sw), weights=sw.values(), k=1)[0]()
+
+
+def register_common_commands():
+    @commander(name='why', public=False)
+    def _why():
+        '''
+        询问某些事情的原因
+        '''
+        return why()
 
 
 if __name__ == '__main__':

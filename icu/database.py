@@ -3,8 +3,6 @@ import typing
 from fuzzywuzzy import process
 from tinydb import TinyDB
 
-from .plugins.database import create_database_related_commands
-
 
 class Database:
     def __init__(self, path):
@@ -13,7 +11,6 @@ class Database:
             'keyword': db.table('keyword'),
         }
         self.cache = self._cache()
-        create_database_related_commands(self)
 
     def keyword_add(self, keyword, return_, type='text', update=True):
         '''

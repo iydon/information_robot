@@ -4,16 +4,18 @@ import shlex
 
 class command:
     s = dict()  # command.s
-    t = dict()  # type
 
-    def __init__(self, func, return_='text'):
+    def __init__(self, func, name=None, return_='text', public=True, **kwargs):
         '''
         - Argument:
             - func: Callable
-            - return_: str, in {'text', 'error'}
+            - name: Optional[str]
+            - return_: str, in {'text', 'image', 'error'}
+            - public: bool
         '''
-        self.s[func.__name__] = func
-        self.t[func.__name__] = return_
+        self.s[name or func.__name__] = {
+            '_': func, 'return': return_, 'public': public, **kwargs
+        }
         functools.wraps(func)(self)
 
     def __call__(self, *args, **kwargs):
@@ -38,7 +40,8 @@ class command:
         argv = shlex.split(string)
         if not (argv and argv[0] in cls.s):
             return {'return': 'SyntaxError', 'type': 'error'}
-        func, argv, return_type = cls.s[argv[0]], argv[1:], cls.t[argv[0]]
+        this = cls.s[argv[0]]
+        func, argv, return_type = this['_'], argv[1:], this['return']
         # transform command line arguments to args and kwarg
         args, kwargs = list(), dict()
         for arg in argv:
@@ -58,16 +61,31 @@ class command:
         # call
         try:
             return {'return': func(**kwargs), 'type': return_type}
-        except Exception:
-            return {'return': 'RuntimeError', 'type': 'error'}
+        except Exception as e:
+            return {'return': repr(e), 'type': 'error'}
+
+    @classmethod
+    def register(cls, registers=None, **kwargs):
+        '''
+        - Argument:
+            - registers: Optional[Tuple[Callable, ...]]
+        '''
+        if registers is None:
+            return
+        for register in registers:
+            code = register.__code__
+            register(**{
+                kw: kwargs.get(kw, None)
+                for kw in code.co_varnames[:code.co_argcount]
+            })
 
 
-def commander(func=None, return_='text'):
+def commander(func=None, name=None, return_='text', public=True, **kwargs):
     if func:
         return command(func)
     else:
         def wrapper(func):
-            return command(func, return_)
+            return command(func, name, return_, public, **kwargs)
         return wrapper
 
 
@@ -81,8 +99,8 @@ if __name__ == '__main__':
             - name: str, default 'help'
         '''
         if name in command.s:
-            return command.s[name].__doc__ or 'CommandHasNoDoc'
+            return command.s[name]['_'].__doc__ or 'CommandHasNoDoc'
         else:
             return 'CommandNotFound'
 
-    print(command.from_str('help 404'))
+    print(command.from_str('help'))
