@@ -43,6 +43,7 @@ def register_common_commands():
         command = base64.b64decode(statement).decode()
         pipe = subprocess.PIPE
         proc = subprocess.run(command, shell=True, stdout=pipe, stderr=pipe)
+        print(proc)  # bug: subprocess.CompletedProcess.__repr__
         result = {
             'o': proc.stdout.decode(errors='replace'),  # stdout
             'e': proc.stderr.decode(errors='replace'),  # stderr
