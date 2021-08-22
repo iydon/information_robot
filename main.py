@@ -13,7 +13,7 @@ from graia.application.message.elements.internal import Source, Plain, At, Image
 from graia.broadcast import Broadcast
 
 from commands import std, easter_eggs
-from config import host, auth_key, account, database_path
+from config import host, auth_key, account, database_path, information_groups
 from icu.decorator import command
 from icu.database import Database
 
@@ -33,9 +33,10 @@ command.register(
         easter_eggs.register_common_commands,
     ), database=database,
 )
+aml = [0, 0, 0]  # average_message_length，用于判断大喘气：member_id, length, count
 
 
-def process(message: MessageChain, fuzzy: int = 0) -> list:
+def process(content: str, fuzzy: int = 0) -> list:
     def handle_type(result: dict) -> List:
         if result['type'] == 'text':
             return [Plain(result['return'])]
@@ -45,8 +46,6 @@ def process(message: MessageChain, fuzzy: int = 0) -> list:
             return [Face(faceId=168), Plain(result['return'])]
         else:
             return []
-
-    content = message.asDisplay().strip()
     # 命令运行
     if content.startswith('/'):
         return handle_type(command.from_str(content[1:]))
@@ -63,7 +62,8 @@ def process(message: MessageChain, fuzzy: int = 0) -> list:
 async def friend_message_listener(
     app: GraiaMiraiApplication, friend: Friend, message: MessageChain
 ):
-    return_ = process(message, fuzzy=3)
+    content = message.asDisplay().strip()
+    return_ = process(content, fuzzy=3)
     if return_:
         await app.sendFriendMessage(friend, MessageChain.create(return_))
 
@@ -71,17 +71,30 @@ async def friend_message_listener(
 async def group_message_listener(
     app: GraiaMiraiApplication, group: Group, member: Member, message: MessageChain
 ):
-    if group.id in (586560037, 780680110, 637371171):  # 信息群
+    content = message.asDisplay().strip()
+    if group.id in information_groups:  # 信息群
+        # 特征记录：大喘气
+        global aml
+        if member.id == aml[0]:
+            aml = [member.id, 0, 0]
+        aml[1] += len(content)
+        aml[2] += 1
+        # 判断信息群是否存在低效情况
+        tips = ''
         if all(isinstance(element, (Source, Face)) for element in message):
             tips = '【自动回复】信息群请不要单发表情哟~（如有误判请忽略）'
+        elif len(set(content)) == 1:  # 避免 '???' '。。。' 等
+            tips = '【自动回复】信息群请不要重复单字哟~（如有误判请忽略）'
+        elif aml[2]==3 and aml[1]/aml[2]<10:
+            tips = '【自动回复】信息群请避免大喘气，否则容易刷丢重要信息（如有误判请忽略）'
+        if tips:
             await app.sendTempMessage(
                 group, member, MessageChain.create([Plain(tips)]),
                 quote=message.get(Source)[0],
             )
+        else:
             return
-        print(await app.getMember(group, member.id))
-        print(member)
-    return_ = process(message)
+    return_ = process(content)
     if return_:
         # 可能由于风控原因，偶尔无法在群里发言，因此改为私聊回复
         # await app.sendGroupMessage(
