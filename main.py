@@ -83,7 +83,7 @@ async def group_message_listener(
         tips = ''
         if all(isinstance(element, (Source, Face)) for element in message):
             tips = '【自动回复】信息群请不要单发表情哟~（如有误判请忽略）'
-        elif len(set(content)) == 1:  # 避免 '???' '。。。' 等
+        elif len(content)>=3 and len(set(content))==1:  # 避免 '???' '。。。' 等
             tips = '【自动回复】信息群请不要重复单字哟~（如有误判请忽略）'
         elif aml[2]==3 and aml[1]/aml[2]<10:
             tips = '【自动回复】信息群请避免大喘气，否则容易刷丢重要信息（如有误判请忽略）'
@@ -92,7 +92,6 @@ async def group_message_listener(
                 group, member, MessageChain.create([Plain(tips)]),
                 quote=message.get(Source)[0],
             )
-        else:
             return
     return_ = process(content)
     if return_:
@@ -108,7 +107,8 @@ async def group_message_listener(
 async def temp_message_listener(
     app: GraiaMiraiApplication, group: Group, member: Member, message: MessageChain
 ):
-    return_ = process(message, fuzzy=3)
+    content = message.asDisplay().strip()
+    return_ = process(content, fuzzy=3)
     if return_:
         await app.sendTempMessage(group, member, MessageChain.create(return_))
 
