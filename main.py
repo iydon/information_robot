@@ -1,4 +1,5 @@
 import asyncio
+import collections
 
 from typing import List
 
@@ -33,7 +34,8 @@ command.register(
         easter_eggs.register_common_commands,
     ), database=database,
 )
-aml = [0, 0, 0]  # average_message_length，用于判断大喘气：member_id, length, count
+# average_message_length，用于判断大喘气：member_id, length, count
+aml = collections.defaultdict(lambda: [0, 0, 0])
 
 
 def process(content: str, fuzzy: int = 0) -> list:
@@ -75,17 +77,18 @@ async def group_message_listener(
     if group.id in information_groups:  # 信息群
         # 特征记录：大喘气
         global aml
-        if member.id == aml[0]:
-            aml = [member.id, 0, 0]
-        aml[1] += len(content)
-        aml[2] += 1
+        if member.id != aml[group.id][0]:
+            aml[group.id] = [member.id, 0, 0]
+        aml[group.id][1] += len(content)
+        aml[group.id][2] += 1
+        caml = aml[group.id]  # current aml
         # 判断信息群是否存在低效情况
         tips = ''
         if all(isinstance(element, (Source, Face)) for element in message):
             tips = '【自动回复】信息群请不要单发表情哟~（如有误判请忽略）'
         elif len(content)>=3 and len(set(content))==1:  # 避免 '???' '。。。' 等
             tips = '【自动回复】信息群请不要重复单字哟~（如有误判请忽略）'
-        elif aml[2]==3 and aml[1]/aml[2]<10:
+        elif caml[2]>=3 and caml[1]/caml[2]<10:
             tips = '【自动回复】信息群请避免大喘气，否则容易刷丢重要信息（如有误判请忽略）'
         if tips:
             await app.sendTempMessage(
